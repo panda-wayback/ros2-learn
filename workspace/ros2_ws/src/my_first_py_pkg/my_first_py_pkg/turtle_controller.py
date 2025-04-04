@@ -1,47 +1,52 @@
 #!/usr/bin/env python3
 import rclpy
-import time
 from .turtle_base import TurtleBase
+from .controllers import DirectionController, MotionController, EnvironmentDetector
 
 class TurtleController(TurtleBase):
     def __init__(self):
         super().__init__('turtle_controller')
-        # 创建一个定时器，用于自动控制
-        self.timer = self.create_timer(0.1, self.timer_callback)
         
-        # 控制状态
+        # 初始化各个控制器
+        self.direction_ctrl = DirectionController()
+        self.motion_ctrl = MotionController(max_speed=0.5)
+        self.env_detector = EnvironmentDetector(wall_hit_threshold=0.1)
+        
+        # 创建定时器
+        self.update_rate = 0.1  # 10Hz
+        self.timer = self.create_timer(self.update_rate, self.timer_callback)
         self.auto_mode = True
-        self.current_action = 'accelerate'
-        self.action_start_time = time.time()
-        self.action_duration = 3.0  # 每个动作持续时间（秒）
 
     def timer_callback(self):
-        """定时器回调函数，实现自动控制"""
+        """定时器回调函数"""
         if not self.auto_mode:
             return
 
-        current_time = time.time()
-        elapsed_time = current_time - self.action_start_time
+        # 环境检测
+        if self.env_detector.check_collision(self.pose.x, self.pose.y):
+            self.get_logger().info('检测到撞墙，改变方向')
+            # 改变方向（在撞墙时交替左转和右转）
+            if self.direction_ctrl.get_current_angle() >= 0:
+                self.direction_ctrl.turn_right()
+            else:
+                self.direction_ctrl.turn_left()
+            # 重置动作控制器
+            self.motion_ctrl.reset()
 
-        if elapsed_time >= self.action_duration:
-            # 切换下一个动作
-            if self.current_action == 'accelerate':
-                self.current_action = 'brake'
-            elif self.current_action == 'brake':
-                self.current_action = 'accelerate'
-            self.action_start_time = current_time
+        # 更新控制器状态
+        motion_state = self.motion_ctrl.update(self.update_rate)
+        steering_angle = self.direction_ctrl.update(self.update_rate)
+        
+        # 应用控制
+        self.set_throttle(motion_state['throttle'])
+        self.set_brake(motion_state['brake'])
+        self.set_steering(steering_angle)
 
-        # 执行当前动作
-        if self.current_action == 'accelerate':
-            # 逐渐增加油门
-            throttle_value = min(1.0, elapsed_time / self.action_duration)
-            self.set_throttle(throttle_value)
-            self.set_steering(0.0)  # 直行
-        elif self.current_action == 'brake':
-            # 逐渐增加刹车
-            brake_value = min(1.0, elapsed_time / self.action_duration)
-            self.set_brake(brake_value)
-            self.set_steering(0.0)  # 直行
+    def stop(self):
+        """停止小乌龟"""
+        self.motion_ctrl.brake_ctrl.set_brake_force(1.0)
+        self.set_brake(1.0)
+        self.set_throttle(0.0)
 
 def main(args=None):
     rclpy.init(args=args)
