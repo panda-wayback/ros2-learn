@@ -1,36 +1,47 @@
 #!/usr/bin/env python3
+from simple_pid import PID
 from .base_controller import BaseController
 
 class BrakeController(BaseController):
     """刹车控制器"""
     def __init__(self):
         super().__init__('brake_controller')
-        self.current_brake = 0.0
-        self.target_brake = 0.0
-        self.brake_rate = 0.2  # 刹车速率（单位/秒）
+        self.target_speed = 0.0
+        
+        # 创建 PID 控制器
+        self.pid = PID(
+            Kp=1.0,   # 比例系数
+            Ki=0.1,   # 积分系数
+            Kd=0.3,   # 微分系数
+            setpoint=0.0,  # 初始目标速度
+            output_limits=(0.0, 1.0),  # 刹车输出限制（0-1）
+            sample_time=0.1,  # 采样时间
+            auto_mode=True  # 自动模式
+        )
+        
+        # 设置积分项限制
+        self.pid.Ki_limits = (-0.5, 0.5)
 
-    def set_brake_force(self, force):
-        """设置刹车力度"""
-        self.target_brake = min(max(0.0, force), 1.0)
-
-    def update(self, dt=0.1):
-        """更新刹车状态"""
+    def update(self, current_speed, dt=0.1):
+        """使用PID控制更新刹车值"""
         if not self.is_enabled():
             return 0.0
 
-        # 计算刹车力度差
-        brake_diff = self.target_brake - self.current_brake
-        
-        # 计算这一帧的刹车力度变化
-        brake_change = min(abs(brake_diff), self.brake_rate * dt)
-        if brake_diff < 0:
-            brake_change = -brake_change
-            
-        # 更新当前刹车力度
-        self.current_brake += brake_change
-        return self.current_brake
+        # 使用 PID 控制器计算刹车值
+        # 注意：我们希望速度降到0，所以目标速度始终为0
+        brake = self.pid(current_speed, dt=dt)
+        return brake
 
     def reset(self):
         """重置刹车控制器状态"""
-        self.current_brake = 0.0
-        self.target_brake = 0.0 
+        self.pid.reset()
+        self.pid.setpoint = 0.0
+
+    def tune_pid(self, kp=None, ki=None, kd=None):
+        """调整PID参数"""
+        if kp is not None:
+            self.pid.Kp = kp
+        if ki is not None:
+            self.pid.Ki = ki
+        if kd is not None:
+            self.pid.Kd = kd 

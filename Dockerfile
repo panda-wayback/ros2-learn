@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y \
     xfce4 \
     xfce4-terminal \
     dbus-x11 \
+    python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
 # 设置 VNC 密码（默认为 'vncpassword'）
@@ -19,6 +20,10 @@ ENV USER=root
 
 # 设置工作目录
 WORKDIR /workspace
+
+# 复制 requirements.txt 并安装 Python 依赖
+COPY workspace/ros2_ws/requirements.txt /workspace/requirements.txt
+RUN pip3 install -r /workspace/requirements.txt
 
 # 源设置文件
 RUN echo "source /opt/ros/humble/setup.bash" >> /root/.bashrc

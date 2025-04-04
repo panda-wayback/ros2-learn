@@ -1,0 +1,15 @@
+# ROS2 和机器人控制相关依赖
+simple-pid==1.0.1
+setuptools>=59.6.0
+numpy>=1.24.0
+transforms3d>=0.4.1
+
+# 开发工具
+pytest>=6.2.5
+flake8>=4.0.1
+black==21.12b0  # 与 ament-black 0.2.6 兼容
+uvloop==0.17.0  # 与 ament-black 0.2.6 兼容
+
+# 调试和可视化工具
+matplotlib>=3.5.1
+ipython>=8.12.0 
