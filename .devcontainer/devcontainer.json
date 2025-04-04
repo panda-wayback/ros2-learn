@@ -1,0 +1,26 @@
+{
+    "name": "ROS2 Development",
+    "dockerFile": "../Dockerfile",
+    "runArgs": [
+        "--platform=linux/amd64",
+        "--privileged",
+        "-e", "DISPLAY=:0",
+        "-e", "PULSE_SERVER=host.docker.internal",
+        "-e", "AUDIODEV=null",
+        "-v", "/tmp/.X11-unix:/tmp/.X11-unix",
+        "-v", "/etc/localtime:/etc/localtime:ro"
+    ],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-azuretools.vscode-docker",
+                "ms-vscode.cpptools",
+                "ms-python.python",
+                "ms-python.vscode-pylance"
+            ]
+        }
+    },
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+    "workspaceFolder": "/workspace",
+    "remoteUser": "ros"
+}

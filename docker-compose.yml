@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  ros2-dev:
+    build: .
+    platform: linux/amd64
+    container_name: ros2-dev
+    ports:
+      - "5901:5901"   # VNC 端口
+    volumes:
+      - ./workspace:/workspace
+    privileged: true
+    tty: true
+    stdin_open: true 

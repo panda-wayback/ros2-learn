@@ -1,0 +1,82 @@
+# ROS2 编译生成
+**/build/
+**/install/
+**/log/
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+**/*.egg-info/
+**/.installed.cfg
+**/*.egg
+
+# IDE 相关
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# ROS2 工作空间
+*.rosinstall
+*.rosinstall.bak
+*.rosinstall.old
+*.rosinstall.swp
+*.rosinstall.swo
+
+# 编译生成文件
+**/*.o
+**/*.lo
+**/*.la
+**/*.al
+**/*.libs
+**/*.so
+**/*.so.[0-9]*
+**/*.a
+**/*.manifest
+**/*.spec
+
+# 测试相关
+.coverage
+htmlcov/
+.tox/
+.nox/
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.pytest_cache/
+
+# 环境相关
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# 其他
+*.bak
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# ROS2 特定文件
+**/build/
+**/install/
+**/log/
+**/__pycache__/
+**/*.pyc
+**/*.egg-info/
+**/install.log
+**/colcon_command_prefix_setup_py.sh.env
+**/prefix_override/
+
