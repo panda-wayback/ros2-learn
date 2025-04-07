@@ -25,8 +25,8 @@ class TurtleControllerNode(Node):
         # 创建控制器（后创建控制器，并传入需要的传感器）
         self.motion_controller = MotionController()
         self.direction_controller = DirectionController(gyro_sensor=self.gyro_sensor)
-        self.throttle_controller = ThrottleController(max_speed=2.0)
-        self.brake_controller = BrakeController()
+        self.throttle_controller = ThrottleController(speed_sensor=self.speed_sensor)  # 速度传感器现在是可选的，仅用于调试
+        self.brake_controller = BrakeController(speed_sensor=self.speed_sensor)
         
         # 设置目标点（可以通过服务或参数动态修改）
         self.target_x = 8.0
@@ -62,24 +62,22 @@ class TurtleControllerNode(Node):
             target_speed, target_angle = self.motion_controller.compute_motion(
                 self.target_x, self.target_y,
                 self.current_x, self.current_y,
-                current_speed, current_angle
+                current_angle
             )
             
             # 方向控制
-            angular_velocity = self.direction_controller.compute_steering(
-                target_angle,
-                current_angle,
-                self.gyro_sensor.get_angular_velocity()
-            )
+            angular_velocity = self.direction_controller.compute(target_angle)
             
             # 速度控制
             if target_speed > 0:
-                # 使用油门控制
-                linear_velocity = self.throttle_controller.update(current_speed)
+                # 将目标速度归一化为0~1的油门值
+                normalized_throttle = min(target_speed / 2.0, 1.0)  # 假设最大速度为2.0
+                # 计算平滑的油门输出
+                linear_velocity = self.throttle_controller.compute(normalized_throttle)
                 self.brake_controller.reset()  # 重置刹车状态
             else:
                 # 使用刹车控制
-                linear_velocity = self.brake_controller.update(current_speed)
+                linear_velocity = self.brake_controller.update()
                 self.throttle_controller.reset()  # 重置油门状态
             
             # 发布控制指令

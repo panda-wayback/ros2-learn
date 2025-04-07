@@ -1,146 +1,132 @@
 #!/usr/bin/env python3
 import math
-import time
 from simple_pid import PID
 from .base_controller import BaseController
 
 class DirectionController(BaseController):
-    """方向控制器，使用PID控制转向"""
-    def __init__(self, gyro_sensor=None):
+    """方向控制器
+    
+    功能：
+    1. 接收转向力度（-1到1）
+       - 负数：向左转
+       - 正数：向右转
+       - 绝对值：转向力度
+    2. 使用陀螺仪数据和PID控制器平滑转向输出
+    3. 输出角速度（弧度/秒）
+    
+    使用示例：
+    ```python
+    # 创建陀螺仪和控制器
+    gyro = GyroSensor()
+    controller = DirectionController(gyro)
+    
+    # 在控制循环中持续调用
+    def control_loop():
+        while True:
+            # 获取转向输入（例如从游戏手柄）
+            steering = get_steering_input()  # -1到1的值
+            
+            # 计算转向控制
+            angular_velocity = controller.compute(steering)
+            
+            # 控制小车
+            cmd = Twist()
+            cmd.angular.z = angular_velocity
+            cmd_vel_publisher.publish(cmd)
+            
+            # 等待固定时间
+            time.sleep(0.01)  # 10ms
+    ```
+    """
+    def __init__(self, gyro_sensor):
         super().__init__('direction_controller')
         self.gyro_sensor = gyro_sensor
         
-        # 创建 PID 控制器
+        # PID控制器配置
         self.pid = PID(
             Kp=1.0,   # 比例系数
             Ki=0.1,   # 积分系数
             Kd=0.3,   # 微分系数
-            setpoint=0.0,  # 初始目标角度
-            output_limits=(-math.pi/2, math.pi/2),  # 限制输出范围
-            sample_time=0.1,  # 采样时间
-            auto_mode=True  # 自动模式
+            setpoint=0.0,
+            output_limits=(-math.pi/2, math.pi/2),  # 限制最大角速度
+            sample_time=0.01,  # 固定采样时间10ms
+            auto_mode=True
         )
-        
-        # 设置积分项限制，防止积分饱和
-        self.pid.Ki_limits = (-1.0, 1.0)
+        self.pid.Ki_limits = (-0.5, 0.5)  # 防止积分饱和
 
-    def compute_steering(self, target_angle, current_angle, current_angular_velocity):
+    def compute(self, steering):
         """计算转向控制输出
         
         Args:
-            target_angle (float): 目标角度（弧度）
-            current_angle (float): 当前角度（弧度）
-            current_angular_velocity (float): 当前角速度（弧度/秒）
-            
+            steering (float): 转向力度，范围[-1, 1]
+                - 负数：向左转
+                - 正数：向右转
+                - 绝对值：转向力度
+                
         Returns:
-            float: 转向控制输出（角速度，弧度/秒）
+            float: 角速度输出（弧度/秒）
         """
         if not self.is_enabled():
             return 0.0
+        
+        # 限制输入范围
+        steering = min(max(-1.0, steering), 1.0)  # 确保转向输入在[-1, 1]范围内
+                                                    # -1: 最大左转
+                                                    #  0: 直行
+                                                    #  1: 最大右转
+        
+        # 获取当前状态
+        current_angle = self.gyro_sensor.get_angle()  # 获取当前车身相对于初始方向的偏转角度（弧度）
+        current_velocity = self.gyro_sensor.get_angular_velocity()  # 获取当前车身旋转的角速度（弧度/秒）
+        
+        # 计算目标角度（基于当前角度和转向力度）
+        target_angle = current_angle + steering * math.pi/4  # 计算目标偏转角度
+                                                            # steering * math.pi/4: 最大可偏转45度（π/4弧度）
+                                                            # 正值表示向右偏转，负值表示向左偏转
+        
+        # 使用PID计算角速度
+        angular_velocity = self._compute_pid(current_angle, target_angle, current_velocity)  # 通过PID控制器计算需要的角速度
+                                                                                            # 输出单位为弧度/秒
+                                                                                            # 正值表示顺时针旋转，负值表示逆时针旋转
+        
+        return angular_velocity
 
-        # 计算角度误差（考虑角度的循环性）
-        angle_error = self.normalize_angle_diff(target_angle - current_angle)
+    def _compute_pid(self, current_angle, target_angle, current_velocity):
+        """计算PID控制输出
         
-        # 使用 PID 控制器计算转向输出
-        steering = self.pid(current_angle + angle_error)
+        Args:
+            current_angle (float): 当前角度
+            target_angle (float): 目标角度
+            current_velocity (float): 当前角速度
+            
+        Returns:
+            float: PID控制输出
+        """
+        # 设置PID目标值
+        self.pid.setpoint = target_angle
         
-        # 考虑当前角速度进行阻尼
-        damping_factor = 0.2
-        steering -= current_angular_velocity * damping_factor
+        # 计算基础角速度
+        angular_velocity = self.pid(current_angle)
         
-        return steering
+        # 根据当前角速度调整输出，防止突然转向
+        if current_velocity * angular_velocity < 0:  # 如果转向方向相反
+            angular_velocity *= 0.5  # 降低转向速度
+            
+        return angular_velocity
 
     def reset(self):
         """重置控制器状态"""
         self.pid.reset()
         self.pid.setpoint = 0.0
 
-    def tune_pid(self, kp=None, ki=None, kd=None):
-        """调整PID参数"""
-        if kp is not None:
-            self.pid.Kp = kp
-        if ki is not None:
-            self.pid.Ki = ki
-        if kd is not None:
-            self.pid.Kd = kd
-
-    @staticmethod
-    def normalize_angle_diff(angle_diff):
-        """标准化角度差，使其在 [-pi, pi] 范围内
+    def tune(self, kp=None, ki=None, kd=None):
+        """调整PID参数
         
         Args:
-            angle_diff (float): 角度差（弧度）
-            
-        Returns:
-            float: 标准化后的角度差（弧度）
+            kp (float, optional): 比例系数
+            ki (float, optional): 积分系数
+            kd (float, optional): 微分系数
         """
-        while angle_diff > math.pi:
-            angle_diff -= 2.0 * math.pi
-        while angle_diff < -math.pi:
-            angle_diff += 2.0 * math.pi
-        return angle_diff
-
-    def turn_left(self):
-        """左转90度"""
-        current_angle = self.gyro_sensor.get_angle()
-        self.target_angle = current_angle + math.pi / 2
-        self._normalize_angle()
-        self.reset_pid()
-
-    def turn_right(self):
-        """右转90度"""
-        current_angle = self.gyro_sensor.get_angle()
-        self.target_angle = current_angle - math.pi / 2
-        self._normalize_angle()
-        self.reset_pid()
-
-    def set_angle(self, angle):
-        """设置目标角度"""
-        self.target_angle = angle
-        self._normalize_angle()
-        self.reset_pid()
-
-    def _normalize_angle(self):
-        """将角度归一化到 -pi 到 pi 之间"""
-        self.target_angle = ((self.target_angle + math.pi) % (2 * math.pi)) - math.pi
-        self.pid.setpoint = self.target_angle
-
-    def _normalize_error(self, error):
-        """归一化误差到 -pi 到 pi 之间"""
-        return ((error + math.pi) % (2 * math.pi)) - math.pi
-
-    def reset_pid(self):
-        """重置PID控制器状态"""
-        self.pid.reset()
-        self.pid.setpoint = self.target_angle
-
-    def update(self, dt=0.1):
-        """使用PID控制更新方向"""
-        if not self.is_enabled():
-            return 0.0
-
-        # 获取当前状态
-        current_angle = self.gyro_sensor.get_angle()
-        current_angular_velocity = self.gyro_sensor.get_angular_velocity()
-
-        # 使用 PID 控制器计算转向量
-        # 将当前角速度作为微分项的反馈
-        self.pid.Kd = -0.5  # 负号是因为我们想要抵消当前的角速度
-        steering = self.pid(current_angle, dt=dt)
-        
-        # 更新陀螺仪
-        self.gyro_sensor.update(steering, dt)
-        
-        return steering
-
-    def reset(self):
-        """重置方向控制器状态"""
-        self.target_angle = 0.0
-        self.reset_pid()
-        self.gyro_sensor.reset()
-
-    def tune_pid(self, kp=None, ki=None, kd=None):
-        """调整PID参数"""
         if kp is not None:
             self.pid.Kp = kp
         if ki is not None:
