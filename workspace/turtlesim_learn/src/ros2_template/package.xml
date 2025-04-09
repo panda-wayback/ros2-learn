@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>${PACKAGE_NAME}</name>
+  <name>ros2_template</name>
   <version>0.0.0</version>
-  <description>ROS2 Package: ${PACKAGE_NAME}</description>
+  <description>ROS2 Package: ros2_template</description>
   <maintainer email="you@example.com">Your Name</maintainer>
   <license>Apache-2.0</license>
 
