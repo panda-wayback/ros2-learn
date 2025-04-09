@@ -13,19 +13,25 @@ clean:
 
 # 设置环境变量
 setup:
-	bash -c "source install/setup.bash"
+	@echo "设置环境变量..."
+	@if [ -f "install/setup.bash" ]; then \
+		echo "环境变量设置成功"; \
+	else \
+		echo "错误: 找不到 setup.bash 文件，请先运行 make build"; \
+		exit 1; \
+	fi
 
 # 运行节点
 # 用法1: make run PKG=<包名> NODE=<节点名>
 # 用法2: make run <包名>-<节点名>
 run: setup
 ifdef PKG
-	bash -c "ros2 run $(PKG) $(NODE)"
+	bash -c "source install/setup.bash && source /opt/ros/humble/setup.bash && ros2 run $(PKG) $(NODE)"
 else
 	$(eval ARGS := $(word 2,$(MAKECMDGOALS)))
 	$(eval PKG_NAME := $(word 1,$(subst -, ,$(ARGS))))
 	$(eval NODE_NAME := $(word 2,$(subst -, ,$(ARGS))))
-	bash -c "ros2 run $(PKG_NAME) $(NODE_NAME)"
+	bash -c "source install/setup.bash && source /opt/ros/humble/setup.bash && ros2 run $(PKG_NAME) $(NODE_NAME)"
 endif
 
 # 运行节点（短变量名方式）
@@ -40,19 +46,19 @@ run-%: setup
 
 # 查看节点列表
 list-nodes: setup
-	bash -c "ros2 node list"
+	bash -c "source install/setup.bash && source /opt/ros/humble/setup.bash && ros2 node list"
 
 # 查看主题列表
 list-topics: setup
-	bash -c "ros2 topic list"
+	bash -c "source install/setup.bash && source /opt/ros/humble/setup.bash && ros2 topic list"
 
 # 查看服务列表
 list-services: setup
-	bash -c "ros2 service list"
+	bash -c "source install/setup.bash && source /opt/ros/humble/setup.bash && ros2 service list"
 
 # 查看参数列表
 list-params: setup
-	bash -c "ros2 param list"
+	bash -c "source install/setup.bash && source /opt/ros/humble/setup.bash && ros2 param list"
 
 # 列出所有包和节点
 list-all: setup
@@ -61,7 +67,7 @@ list-all: setup
 	@echo "检查脚本权限..."
 	@ls -l scripts/list_nodes.py
 	@echo "运行脚本..."
-	bash -c "source install/setup.bash && python3 scripts/list_nodes.py"
+	bash -c "source install/setup.bash && source /opt/ros/humble/setup.bash && python3 scripts/list_nodes.py"
 
 # 帮助信息
 help:
