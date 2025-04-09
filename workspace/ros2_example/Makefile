@@ -1,4 +1,9 @@
+SHELL := /bin/bash
+
 .PHONY: build clean setup run list-nodes list-topics help list-all
+
+# 设置环境变量
+setup = source install/setup.bash
 
 # 默认目标
 all: build
@@ -11,63 +16,53 @@ build:
 clean:
 	rm -rf build install log
 
-# 设置环境变量
-setup:
-	@echo "设置环境变量..."
-	@if [ -f "install/setup.bash" ]; then \
-		echo "环境变量设置成功"; \
-	else \
-		echo "错误: 找不到 setup.bash 文件，请先运行 make build"; \
-		exit 1; \
-	fi
-
 # 运行节点
 # 用法1: make run PKG=<包名> NODE=<节点名>
 # 用法2: make run <包名>-<节点名>
-run: setup
+run:
 ifdef PKG
-	bash -c "source install/setup.bash && source /opt/ros/humble/setup.bash && ros2 run $(PKG) $(NODE)"
+	$(setup) && ros2 run $(PKG) $(NODE)
 else
 	$(eval ARGS := $(word 2,$(MAKECMDGOALS)))
 	$(eval PKG_NAME := $(word 1,$(subst -, ,$(ARGS))))
 	$(eval NODE_NAME := $(word 2,$(subst -, ,$(ARGS))))
-	bash -c "source install/setup.bash && source /opt/ros/humble/setup.bash && ros2 run $(PKG_NAME) $(NODE_NAME)"
+	$(setup) && ros2 run $(PKG_NAME) $(NODE_NAME)
 endif
 
 # 运行节点（短变量名方式）
 # 用法: make runp p=<包名> n=<节点名>
-runp: setup
-	bash -c "ros2 run $(p) $(n)"
+runp:
+	$(setup) && ros2 run $(p) $(n)
 
 # 运行节点（短横线分隔方式）
 # 用法: make run- <包名>-<节点名>
-run-%: setup
-	bash -c "ros2 run $(word 1,$(subst -, ,$*)) $(word 2,$(subst -, ,$*))"
+run-%:
+	$(setup) && ros2 run $(word 1,$(subst -, ,$*)) $(word 2,$(subst -, ,$*))
 
 # 查看节点列表
-list-nodes: setup
-	bash -c "source install/setup.bash && source /opt/ros/humble/setup.bash && ros2 node list"
+list-nodes:
+	$(setup) && ros2 node list
 
 # 查看主题列表
-list-topics: setup
-	bash -c "source install/setup.bash && source /opt/ros/humble/setup.bash && ros2 topic list"
+list-topics:
+	$(setup) && ros2 topic list
 
 # 查看服务列表
-list-services: setup
-	bash -c "source install/setup.bash && source /opt/ros/humble/setup.bash && ros2 service list"
+list-services:
+	$(setup) && ros2 service list
 
 # 查看参数列表
-list-params: setup
-	bash -c "source install/setup.bash && source /opt/ros/humble/setup.bash && ros2 param list"
+list-params:
+	$(setup) && ros2 param list
 
 # 列出所有包和节点
-list-all: setup
+list-all:
 	@echo "正在列出包和节点..."
 	@echo "当前工作空间: $(shell pwd)"
 	@echo "检查脚本权限..."
 	@ls -l scripts/list_nodes.py
 	@echo "运行脚本..."
-	bash -c "source install/setup.bash && source /opt/ros/humble/setup.bash && python3 scripts/list_nodes.py"
+	$(setup) && python3 scripts/list_nodes.py
 
 # 帮助信息
 help:
@@ -76,7 +71,6 @@ help:
 	@echo "基本命令:"
 	@echo "  make build        - 编译所有包"
 	@echo "  make clean        - 清理编译文件"
-	@echo "  make setup        - 设置环境变量"
 	@echo ""
 	@echo "运行命令:"
 	@echo "  make run PKG=<包名> NODE=<节点名>  - 运行指定节点"
