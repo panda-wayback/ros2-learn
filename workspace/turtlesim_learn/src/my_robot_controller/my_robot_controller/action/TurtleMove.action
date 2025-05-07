@@ -1,0 +1,15 @@
+# 目标位置
+float32 target_x
+float32 target_y
+float32 target_theta
+---
+# 最终结果
+float32 final_x
+float32 final_y
+float32 final_theta
+bool success
+---
+# 反馈信息
+float32 current_x
+float32 current_y
+float32 distance_to_goal 
