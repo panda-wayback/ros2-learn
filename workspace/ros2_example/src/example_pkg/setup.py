@@ -1,28 +1,57 @@
-from setuptools import setup
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
-package_name = 'example_pkg'
+"""
+ROS2 Python 包的安装配置文件
+此文件定义了包的元数据、依赖关系和可执行入口点
+"""
+
+from setuptools import setup
+import os
+
+# 自动获取当前目录名作为包名
+# __file__ 是当前文件的路径
+# os.path.abspath() 获取绝对路径
+# os.path.dirname() 获取目录路径
+# os.path.basename() 获取目录名
+package_name = os.path.basename(os.path.dirname(os.path.abspath(__file__)))
 
 setup(
-    name=package_name,
-    version='0.0.0',
-    packages=[package_name],
+    # 包的基本信息
+    name=package_name,  # 包名，与目录名相同
+    version='0.0.0',    # 版本号，遵循语义化版本规范
+    packages=['nodes'], # Python 模块列表，这里使用 nodes 作为主模块
+
+    # 数据文件配置
     data_files=[
+        # 将包标记文件安装到 ROS2 包索引目录
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
+        # 将 package.xml 安装到包的共享目录
         ('share/' + package_name, ['package.xml']),
     ],
-    install_requires=['setuptools'],
-    zip_safe=True,
-    maintainer='root',
-    maintainer_email='you@example.com',
-    description='TODO: Package description',
-    license='TODO: License declaration',
-    tests_require=['pytest'],
+
+    # 依赖配置
+    install_requires=['setuptools'],  # 安装时需要的依赖包
+    zip_safe=True,                    # 是否支持 zip 安装
+
+    # 包的元数据
+    maintainer='root',                # 维护者
+    maintainer_email='you@example.com', # 维护者邮箱
+    description='TODO: Package description',  # 包描述
+    license='TODO: License declaration',      # 许可证声明
+
+    # 测试配置
+    tests_require=['pytest'],         # 测试依赖
+
+    # 可执行入口点配置
+    # 这些命令可以在安装后直接使用
     entry_points={
         'console_scripts': [
-            'publisher = example_pkg.publisher:main',
-            'subscriber = example_pkg.subscriber:main',
-            'service_node = example_pkg.service_node:main',
+            # 格式: '命令名 = 模块路径:函数名'
+            'publisher = nodes.publisher:main',      # 发布者节点
+            'subscriber = nodes.subscriber:main',    # 订阅者节点
+            'service_node = nodes.service_node:main', # 服务节点
         ],
     },
 )
