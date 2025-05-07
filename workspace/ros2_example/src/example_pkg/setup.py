@@ -6,7 +6,7 @@ ROS2 Python 包的安装配置文件
 此文件定义了包的元数据、依赖关系和可执行入口点
 """
 
-from setuptools import setup
+from setuptools import setup, find_packages
 import os
 
 # 自动获取当前目录名作为包名
@@ -20,7 +20,9 @@ setup(
     # 包的基本信息
     name=package_name,  # 包名，与目录名相同
     version='0.0.0',    # 版本号，遵循语义化版本规范
-    packages=['nodes'], # Python 模块列表，这里使用 nodes 作为主模块
+    packages=find_packages(),
+    python_requires='>=3.6',
+    setup_requires=['setuptools>=42'],
 
     # 数据文件配置
     data_files=[

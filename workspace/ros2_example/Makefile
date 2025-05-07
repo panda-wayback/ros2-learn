@@ -10,7 +10,7 @@ all: build
 
 # 编译包
 build:
-	colcon build --event-handlers console_direct+
+	colcon --log-level debug build --event-handlers console_direct+
 
 # 清理编译文件
 clean:
