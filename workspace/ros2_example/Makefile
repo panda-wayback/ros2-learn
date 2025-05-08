@@ -64,6 +64,31 @@ list-all:
 	@echo "运行脚本..."
 	$(setup) && python3 scripts/list_nodes.py
 
+
+# 创建一个新的 python 节点
+# 在 src 目录下
+create-python:
+	@echo "创建新的 Python 节点包..."
+	@read -p "请输入包名: " pkg_name; \
+	cd src; \
+	ros2 pkg create --build-type ament_python $$pkg_name
+	@echo "包创建完成！"
+	@echo "请编辑 src/$$pkg_name/ 目录下的文件来添加节点代码"
+	@echo "然后运行 'make build' 来编译包"
+
+
+# 创建一个新的 C++ 节点
+# 在 src 目录下
+create-cpp:
+	@echo "创建新的 C++ 节点包..."
+	@read -p "请输入包名: " pkg_name; \
+	cd src; \
+	ros2 pkg create --build-type ament_cmake $$pkg_name
+	@echo "包创建完成！"
+	@echo "请编辑 src/$$pkg_name/src/ 目录下的文件来添加节点代码"
+	@echo "然后运行 'make build' 来编译包"
+
+
 # 帮助信息
 help:
 	@echo "ROS2 开发模板 Makefile"
