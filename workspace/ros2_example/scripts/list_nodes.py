@@ -25,11 +25,9 @@ def get_nodes(package):
         cmd = ['ros2', 'pkg', 'executables', package]
         result = subprocess.run(cmd, 
                               capture_output=True, text=True)
-        print(f"result: {result}")
         if result.returncode == 0:
             nodes = []
             for line in result.stdout.splitlines():
-                print(f"line: {line}")
                 if line.strip():
                     node = line[len(package)+1:] if line.startswith(package) else line
                     nodes.append(node)
@@ -54,7 +52,7 @@ def main():
         if nodes:
             print("节点:")
             for node in nodes:
-                print(f"  - {node}")
+                print(f"  - {node} --   make run {package}-{node}")
         else:
             print("  (无节点)")
 
