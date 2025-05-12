@@ -5,17 +5,18 @@ import json
 import os
 
 def get_workspace_packages():
-    """获取当前工作空间中的包"""
+    """获取src/pkgs目录下的包"""
     try:
         workspace_path = os.getcwd()
-        src_path = os.path.join(workspace_path, 'src')
+        pkgs_path = os.path.join(workspace_path, 'src', 'pkgs')
         packages = []
-        for item in os.listdir(src_path):
-            item_path = os.path.join(src_path, item)
+        for item in os.listdir(pkgs_path):
+            item_path = os.path.join(pkgs_path, item)
             if os.path.isdir(item_path) and os.path.exists(os.path.join(item_path, 'package.xml')):
                 packages.append(item)
         return packages
     except Exception as e:
+        print(f"错误: {str(e)}")
         return []
 
 def get_nodes(package):
@@ -24,24 +25,27 @@ def get_nodes(package):
         cmd = ['ros2', 'pkg', 'executables', package]
         result = subprocess.run(cmd, 
                               capture_output=True, text=True)
+        print(f"result: {result}")
         if result.returncode == 0:
             nodes = []
             for line in result.stdout.splitlines():
+                print(f"line: {line}")
                 if line.strip():
                     node = line[len(package)+1:] if line.startswith(package) else line
                     nodes.append(node)
             return nodes
         return []
     except Exception as e:
+        print(f"获取节点时出错: {str(e)}")
         return []
 
 def main():
-    print("当前工作空间包和节点列表")
+    print("src/pkgs目录下的包和节点列表")
     print("=" * 50)
     
     packages = get_workspace_packages()
     if not packages:
-        print("未找到任何包，请确保在正确的工作空间目录下运行")
+        print("未在src/pkgs目录下找到任何包")
         return
         
     for package in packages:

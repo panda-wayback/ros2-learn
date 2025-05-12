@@ -9,8 +9,10 @@ setup = source install/setup.bash
 all: build
 
 # 编译包
+# build:
+# 	colcon --log-level debug build --event-handlers console_direct+
 build:
-	colcon --log-level debug build --event-handlers console_direct+
+	colcon build
 
 # 清理编译文件
 clean:
@@ -70,7 +72,7 @@ list-all:
 create-python:
 	@echo "创建新的 Python 节点包..."
 	@read -p "请输入包名: " pkg_name; \
-	cd src; \
+	cd src/pkgs; \
 	ros2 pkg create --build-type ament_python $$pkg_name
 	@echo "包创建完成！"
 	@echo "请编辑 src/$$pkg_name/ 目录下的文件来添加节点代码"
@@ -82,7 +84,7 @@ create-python:
 create-cpp:
 	@echo "创建新的 C++ 节点包..."
 	@read -p "请输入包名: " pkg_name; \
-	cd src; \
+	cd src/pkgs; \
 	ros2 pkg create --build-type ament_cmake $$pkg_name
 	@echo "包创建完成！"
 	@echo "请编辑 src/$$pkg_name/src/ 目录下的文件来添加节点代码"
