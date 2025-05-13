@@ -7,8 +7,10 @@
 ```
 ros2_example/
 ├── src/                    # ROS2 包源代码目录
-│   ├── basic_communication/ # 基础通信示例包
-│   └── example_pkg/        # 示例包
+│   ├── pkgs/              # 功能包目录
+│   │   └── example_pkg/   # 示例功能包
+│   └── common/            # 公共组件目录
+│       └── ros2_common_utils/  # ROS2 通用工具包
 ├── scripts/                # 工具脚本目录
 │   └── list_nodes.py      # 节点列表工具
 ├── build/                  # 编译输出目录
