@@ -55,6 +55,7 @@ setup(
             'subscriber = nodes.subscriber:main',    # 订阅者节点
             'service_node = nodes.service_node:main', # 服务节点
             'utils_example = nodes.utils_example_node:main', # 工具函数示例节点
+            'light_control = nodes.light_control:main',  # 添加灯光控制节点
         ],
     },
 )
