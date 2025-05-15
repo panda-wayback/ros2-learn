@@ -8,15 +8,15 @@ setup = source install/setup.bash
 # 默认目标
 all: build
 
-# 编译包
-# build:
-# 	colcon --log-level debug build --event-handlers console_direct+
-build:
-	colcon build
 
 # 清理编译文件
 clean:
 	rm -rf build install log
+
+build: clean
+	colcon build
+
+buildEx: clean build list-all
 
 # 运行节点
 # 用法1: make run PKG=<包名> NODE=<节点名>
