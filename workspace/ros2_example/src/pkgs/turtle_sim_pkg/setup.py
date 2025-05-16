@@ -51,11 +51,7 @@ setup(
     entry_points={
         'console_scripts': [
             # 格式: '命令名 = 模块路径:函数名'
-            'publisher = example_pkg2.publisher:main',      # 发布者节点
-            'subscriber = example_pkg2.subscriber:main',    # 订阅者节点
-            'service_node = example_pkg2.service_node:main', # 服务节点
-            'utils_example = example_pkg2.utils_example_node:main', # 工具函数示例节点
-            'light_control = example_pkg2.light_control:main',  # 添加灯光控制节点
+            'square_turtle = turtle_sim_pkg.square_turtle.main:main',
         ],
     },
 )

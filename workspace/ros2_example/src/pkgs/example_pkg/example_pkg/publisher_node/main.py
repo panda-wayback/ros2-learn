@@ -31,7 +31,7 @@ class PublisherNode(Node):
         # 创建String类型的消息对象
         msg = String()
         # 设置消息内容，包含计数器的值
-        msg.data = 'Hello1 2 World: %d' % self.i
+        msg.data = 'Hello1 3 World: %d' % self.i
         # 发布消息到话题
         self.publisher_.publish(msg)
         # 在日志中打印发布的消息内容
