@@ -51,10 +51,10 @@ setup(
     entry_points={
         'console_scripts': [
             # 格式: '命令名 = 模块路径:函数名'
-            'publisher = nodes.publisher_node.main:main',
-            'subscriber = nodes.subscriber_node.main:main',
-            'service = nodes.service_node.main:main',
-            'utils_example = nodes.utils_node.main:main',
+            'publisher = example_pkg.publisher_node.main:main',
+            'subscriber = example_pkg.subscriber_node.main:main',
+            'service = example_pkg.service_node.main:main',
+            'utils_example = example_pkg.utils_node.main:main',
         ],
     },
 )

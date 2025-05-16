@@ -10,16 +10,12 @@ class PublisherNode(Node):
     发布者节点类
     继承自ROS2的Node基类，用于创建一个发布者节点
     """
-    # 定义话题名称常量
-    TOPIC_NAME = 'chat_topic'
-    NODE_NAME = 'publisher_node'
-    
     def __init__(self):
-        # 调用父类构造函数，设置节点名称
-        super().__init__(self.NODE_NAME)
-        # 创建一个发布者，发布String类型的消息到话题
+        # 调用父类构造函数，设置节点名称为'publisher_node'
+        super().__init__('publisher_node')
+        # 创建一个发布者，发布String类型的消息到'topic'话题
         # 队列大小设置为10，用于缓存消息
-        self.publisher_ = self.create_publisher(String, self.TOPIC_NAME, 10)
+        self.publisher_ = self.create_publisher(String, 'topic', 10)
         # 设置定时器周期为1秒
         timer_period = 1.0  # seconds
         # 创建定时器，周期性地调用timer_callback函数
@@ -35,7 +31,7 @@ class PublisherNode(Node):
         # 创建String类型的消息对象
         msg = String()
         # 设置消息内容，包含计数器的值
-        msg.data = 'Hello World: %d' % self.i
+        msg.data = 'Hello1 2 World: %d' % self.i
         # 发布消息到话题
         self.publisher_.publish(msg)
         # 在日志中打印发布的消息内容

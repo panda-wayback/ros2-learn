@@ -1,24 +1,15 @@
 #!/usr/bin/env python3
 
-
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
-from example_pkg.nodes.publisher_node.main import PublisherNode
-
 
 class SubscriberNode(Node):
-    """
-    订阅者节点类
-    继承自ROS2的Node基类，用于创建一个订阅者节点
-    """
-    NODE_NAME = 'subscriber_node'
-
     def __init__(self):
-        super().__init__(self.NODE_NAME)
+        super().__init__('subscriber_node')
         self.subscription = self.create_subscription(
             String,
-            PublisherNode.TOPIC_NAME,  # 使用发布者节点定义的话题名称
+            'topic',
             self.listener_callback,
             10)
         self.subscription  # prevent unused variable warning
