@@ -1,0 +1,128 @@
+---
+description: 
+globs: src/pkgs/**/*
+alwaysApply: false
+---
+# ROS2 Example Package
+## 项目简介
+这是一个ROS2示例包，用于展示ROS2 Python包的标准结构和开发规范。
+
+## 目录结构
+```
+example_pkg/
+├── package.xml          # 包配置文件
+├── setup.py            # Python包安装配置
+├── setup.cfg           # Python包配置
+├── README.md           # 项目说明文档
+├── resource/           # 资源文件目录
+├── test/              # 测试文件目录
+├── interface/         # 接口定义目录
+└── example_pkg/       # 主要代码目录
+    ├── __init__.py
+    ├── publisher_node/
+    ├── subscriber_node/
+    ├── service_node/
+    └── utils_node/
+```
+
+## 开发规范
+
+### 1. 包结构规范
+- 每个ROS2包必须包含上述基本目录结构
+- 所有Python模块必须放在包名对应的目录下
+- 每个功能节点应该放在独立的模块中
+- 工具类应该放在utils目录下
+
+### 2. 命名规范
+- 包名：使用小写字母和下划线
+- 节点文件名：使用小写字母和下划线
+- 类名：使用驼峰命名法
+- 函数和变量：使用小写字母和下划线
+
+### 3. 代码风格
+- 遵循PEP 8规范
+- 使用4个空格缩进
+- 行长度不超过79个字符
+- 使用UTF-8编码
+- 每个Python文件必须包含文件头注释
+- 每个函数必须包含文档字符串
+- 复杂逻辑必须包含注释说明
+
+### 4. 依赖管理
+- 所有ROS2依赖在package.xml中声明
+- Python包依赖在setup.py中声明
+- 避免使用通配符版本号
+
+### 5. 测试规范
+- 每个功能模块必须有对应的测试文件
+- 测试文件放在test目录下
+- 测试文件名必须以test_开头
+
+### 6. 版本控制
+- 版本号遵循语义化版本规范
+- 每次发布新版本必须更新package.xml和setup.py中的版本号
+
+## 安装说明
+
+### 环境要求
+- ROS2 Humble
+- Python 3.6+
+- 依赖包：
+  - rclpy
+  - std_msgs
+  - ros2_common_utils
+
+### 安装步骤
+1. 克隆代码到ROS2工作空间
+```bash
+cd ~/ros2_ws/src
+git clone [repository_url]
+```
+
+2. 安装依赖
+```bash
+cd ~/ros2_ws
+rosdep install --from-paths src --ignore-src -r -y
+```
+
+3. 编译
+```bash
+colcon build --packages-select example_pkg
+```
+
+4. 设置环境变量
+```bash
+source install/setup.bash
+```
+
+## 使用说明
+
+### 运行节点
+```bash
+# 运行发布者节点
+ros2 run example_pkg publisher
+
+# 运行订阅者节点
+ros2 run example_pkg subscriber
+
+# 运行服务节点
+ros2 run example_pkg service
+
+# 运行工具示例
+ros2 run example_pkg utils_example
+```
+
+## 开发指南
+
+### 添加新节点
+1. 在example_pkg目录下创建新的节点目录
+2. 在setup.py中添加新的入口点
+3. 在package.xml中添加必要的依赖
+4. 编写对应的测试文件
+
+### 代码提交规范
+1. 确保代码符合PEP 8规范
+2. 运行所有测试用例
+3. 更新版本号（如需要）
+4. 更新文档
+

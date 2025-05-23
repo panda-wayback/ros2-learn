@@ -1,0 +1,9 @@
+# 请求部分：客户端发送给服务器的命令
+string command          # 控制命令（例如："move_forward", "turn_left", "stop"）
+float32 speed          # 运动速度（0.0-1.0）
+float32 duration       # 执行时间（秒）
+---
+# 响应部分：服务器返回给客户端的结果
+bool success           # 命令是否执行成功
+string message         # 执行结果描述
+float32 distance       # 实际移动距离（米） 

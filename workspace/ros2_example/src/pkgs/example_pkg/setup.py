@@ -54,6 +54,7 @@ setup(
             'publisher = example_pkg.publisher_node.main:main',
             'subscriber = example_pkg.subscriber_node.main:main',
             'service = example_pkg.service_node.main:main',
+            'service_client = example_pkg.service_node.client:main',
             'utils_example = example_pkg.utils_node.main:main',
         ],
     },

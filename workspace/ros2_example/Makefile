@@ -29,7 +29,12 @@ else
 	$(eval PKG_NAME := $(word 1,$(subst -, ,$(ARGS))))
 	$(eval NODE_NAME := $(word 2,$(subst -, ,$(ARGS))))
 	$(setup) && ros2 run $(PKG_NAME) $(NODE_NAME)
+	@:
 endif
+
+# 处理带连字符的参数
+%:
+	@:
 
 # 运行节点（短变量名方式）
 # 用法: make runp p=<包名> n=<节点名>
