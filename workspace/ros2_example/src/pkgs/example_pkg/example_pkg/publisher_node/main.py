@@ -4,6 +4,7 @@
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String  # 导入标准消息类型String
+from common_interfaces.msg import Status, Command
 
 class PublisherNode(Node):
     """
@@ -36,6 +37,27 @@ class PublisherNode(Node):
         self.publisher_.publish(msg)
         # 在日志中打印发布的消息内容
         self.get_logger().info('Publishing: "%s"' % msg.data)
+        
+        # 创建Status消息对象
+        status_msg = Status()
+        status_msg.status_code = 0
+        status_msg.status_message = "OK"
+        status_msg.success = True
+        status_msg.data = f"计数器: {self.i}"
+        # 时间戳可选赋值（如有需要）
+        # status_msg.timestamp = self.get_clock().now().to_msg()
+
+        # 创建Command消息对象
+        command_msg = Command()
+        command_msg.command_id = self.i
+        command_msg.command_type = "START"
+        command_msg.parameters = "param1"
+        command_msg.priority = 5
+        command_msg.timeout = 3.0
+
+        # 输出Status和Command内容
+        self.get_logger().info(f'Status: {status_msg}')
+        self.get_logger().info(f'Command: {command_msg}')
         # 计数器加1
         self.i += 1
 

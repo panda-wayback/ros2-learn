@@ -10,6 +10,7 @@ ROS2服务节点示例
 import rclpy
 from rclpy.node import Node
 from std_srvs.srv import SetBool  # 导入标准服务消息类型
+from common_interfaces.msg import Status, Command
 
 class ServiceNode(Node):
     """

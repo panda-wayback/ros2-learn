@@ -1,0 +1,11 @@
+# 请求
+int32 command_id
+string command_type
+string parameters
+int8 priority
+float32 timeout
+---
+# 响应
+bool success
+string message
+int32 status_code 
