@@ -6,6 +6,7 @@ ROS2 Python 包的安装配置文件
 此文件定义了包的元数据、依赖关系和可执行入口点
 """
 
+from glob import glob
 from setuptools import setup, find_packages
 import os
 
@@ -31,6 +32,10 @@ setup(
             ['resource/' + package_name]),
         # 将 package.xml 安装到包的共享目录
         ('share/' + package_name, ['package.xml']),
+        # 修改接口文件安装路径
+        (os.path.join('share', package_name, 'interface', 'msg'), glob('interface/msg/*.msg')),
+        (os.path.join('share', package_name, 'interface', 'srv'), glob('interface/srv/*.srv')),
+        (os.path.join('share', package_name, 'interface', 'action'), glob('interface/action/*.action')),
     ],
 
     # 依赖配置
@@ -56,6 +61,7 @@ setup(
             'service = example_pkg.service_node.main:main',
             'service_client = example_pkg.service_node.client:main',
             'utils_example = example_pkg.utils_node.main:main',
+            'interface_test = example_pkg.interface_test_node.robot_status_node:main',
         ],
     },
 )
