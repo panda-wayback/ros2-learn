@@ -61,7 +61,6 @@ setup(
             'service = example_pkg.service_node.main:main',
             'service_client = example_pkg.service_node.client:main',
             'utils_example = example_pkg.utils_node.main:main',
-            'interface_test = example_pkg.interface_test_node.robot_status_node:main',
         ],
     },
 )

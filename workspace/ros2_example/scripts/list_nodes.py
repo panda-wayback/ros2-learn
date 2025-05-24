@@ -5,13 +5,13 @@ import json
 import os
 
 def get_workspace_packages():
-    """获取src/pkgs目录下的包"""
+    """获取src/examples目录下的包"""
     try:
         workspace_path = os.getcwd()
-        pkgs_path = os.path.join(workspace_path, 'src', 'pkgs')
+        examples_path = os.path.join(workspace_path, 'src', 'examples')
         packages = []
-        for item in os.listdir(pkgs_path):
-            item_path = os.path.join(pkgs_path, item)
+        for item in os.listdir(examples_path):
+            item_path = os.path.join(examples_path, item)
             if os.path.isdir(item_path) and os.path.exists(os.path.join(item_path, 'package.xml')):
                 packages.append(item)
         return packages
@@ -38,12 +38,12 @@ def get_nodes(package):
         return []
 
 def main():
-    print("src/pkgs目录下的包和节点列表")
+    print("src/examples目录下的包和节点列表")
     print("=" * 50)
     
     packages = get_workspace_packages()
     if not packages:
-        print("未在src/pkgs目录下找到任何包")
+        print("未在src/examples目录下找到任何包")
         return
         
     for package in packages:
