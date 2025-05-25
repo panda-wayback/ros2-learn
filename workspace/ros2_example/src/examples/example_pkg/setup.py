@@ -36,6 +36,8 @@ setup(
         (os.path.join('share', package_name, 'interface', 'msg'), glob('interface/msg/*.msg')),
         (os.path.join('share', package_name, 'interface', 'srv'), glob('interface/srv/*.srv')),
         (os.path.join('share', package_name, 'interface', 'action'), glob('interface/action/*.action')),
+        # 添加 launch 文件安装路径
+        (os.path.join('share', package_name, 'launch'), glob('launch/*.launch.py')),
     ],
 
     # 依赖配置
