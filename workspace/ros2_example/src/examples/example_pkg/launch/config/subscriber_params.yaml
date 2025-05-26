@@ -1,0 +1,9 @@
+/**:
+  ros__parameters:
+    # 订阅者参数
+    subscriber:
+      queue_size: 10
+      # 可以添加更多参数
+      debug_mode: false
+      print_timestamp: true
+      message_filter: "all" 

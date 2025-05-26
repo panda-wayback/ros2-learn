@@ -1,0 +1,11 @@
+/**:
+  ros__parameters:
+    # 发布者参数
+    publisher:
+      publish_frequency: 1.0
+      message_prefix: "Hello from publisher"
+      queue_size: 10
+      latch: false
+      # 可以添加更多参数
+      debug_mode: false
+      max_count: 100 
