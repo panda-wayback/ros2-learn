@@ -1,7 +1,7 @@
 # 工作空间路径配置
 workspace_paths:
   - name: examples  # 工作空间名称
-    path: src/examples  # 相对于工作空间根目录的路径
+    path: src/nodes/example_nodes  # 相对于工作空间根目录的路径
   - name: pkgs
     path: src/pkgs
   # 可以添加更多工作空间路径

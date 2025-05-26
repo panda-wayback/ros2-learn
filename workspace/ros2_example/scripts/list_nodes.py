@@ -8,13 +8,12 @@ import yaml
 def load_config():
     """加载配置文件"""
     config_path = os.path.join(os.path.dirname(__file__), 'config.yaml')
+    print("config_path " , config_path)
     if os.path.exists(config_path):
         with open(config_path, 'r') as f:
             return yaml.safe_load(f)
     return {
         'workspace_paths': [
-            {'name': 'examples', 'path': 'src/examples'},
-            # {'name': 'pkgs', 'path': 'src/pkgs'}
         ]
     }
 
@@ -22,6 +21,7 @@ def get_workspace_packages():
     """获取所有配置的工作空间路径下的包"""
     try:
         config = load_config()
+        print("load_config" , config)
         workspace_path = os.getcwd()
         all_packages = []
         
