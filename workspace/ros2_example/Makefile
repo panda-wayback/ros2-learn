@@ -77,7 +77,7 @@ list-all:
 create-python:
 	@echo "创建新的 Python 节点包..."
 	@read -p "请输入包名: " pkg_name; \
-	cd src/pkgs; \
+	cd src/temp; \
 	ros2 pkg create --build-type ament_python $$pkg_name
 	@echo "包创建完成！"
 	@echo "请编辑 src/$$pkg_name/ 目录下的文件来添加节点代码"
@@ -89,7 +89,7 @@ create-python:
 create-cpp:
 	@echo "创建新的 C++ 节点包..."
 	@read -p "请输入包名: " pkg_name; \
-	cd src/pkgs; \
+	cd src/temp; \
 	ros2 pkg create --build-type ament_cmake $$pkg_name
 	@echo "包创建完成！"
 	@echo "请编辑 src/$$pkg_name/src/ 目录下的文件来添加节点代码"

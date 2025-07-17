@@ -81,9 +81,8 @@ def main(args=None):
         # 销毁节点
         if 'publisher_node' in locals():
             publisher_node.destroy_node()
-        # 检查ROS2是否已经初始化，如果已初始化则关闭
-        if rclpy.ok():
-            rclpy.shutdown()
+        # 关闭ROS2
+        rclpy.shutdown()
 
 if __name__ == '__main__':
     main() 
