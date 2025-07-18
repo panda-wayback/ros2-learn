@@ -8,6 +8,8 @@ setup = source install/setup.bash
 # 默认目标
 all: build
 
+update-paths:
+	python3 scripts/auto_update_paths.py
 
 # 清理编译文件
 clean:

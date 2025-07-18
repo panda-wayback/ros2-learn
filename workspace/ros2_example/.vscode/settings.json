@@ -1,0 +1,33 @@
+{
+    "python.analysis.extraPaths": [
+        ".",
+        "./build/common_interfaces/rosidl_generator_py",
+        "./build/common_interfaces_test/rosidl_generator_py",
+        "./src/common/ros2_common_utils",
+        "./src/nodes/example_nodes/example_pkg",
+        "./src/nodes/turtles/turtle_sim_pkg"
+    ],
+    "python.analysis.autoSearchPaths": true,
+    "python.analysis.include": [
+        "src/**/*"
+    ],
+    "cursorpyright.analysis.extraPaths": [
+        ".",
+        "./build/common_interfaces/rosidl_generator_py",
+        "./build/common_interfaces_test/rosidl_generator_py",
+        "./src/common/ros2_common_utils",
+        "./src/nodes/example_nodes/example_pkg",
+        "./src/nodes/turtles/turtle_sim_pkg"
+    ],
+    "cursorpyright.analysis.autoSearchPaths": true,
+    "cursorpyright.analysis.include": [
+        "src/**/*"
+    ],
+    "ruff.nativeServer": true,
+    "ruff.trace.server": "verbose",
+    "ruff.lint.enable": true,
+    "ruff.organizeImports": true,
+    "ruff.fixAll": true,
+    "cmake.ignoreCMakeListsMissing": true,
+    "makefile.configureOnOpen": true
+}

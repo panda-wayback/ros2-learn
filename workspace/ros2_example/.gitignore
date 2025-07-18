@@ -1,5 +1,6 @@
 # IDE配置
 .vscode/
+!.vscode/settings.json
 
 # ROS2构建目录
 build/
