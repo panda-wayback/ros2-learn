@@ -79,7 +79,7 @@ list-all:
 create-python:
 	@echo "创建新的 Python 节点包..."
 	@read -p "请输入包名: " pkg_name; \
-	cd src/temp; \
+	cd src/nodes; \
 	ros2 pkg create --build-type ament_python $$pkg_name
 	@echo "包创建完成！"
 	@echo "请编辑 src/$$pkg_name/ 目录下的文件来添加节点代码"

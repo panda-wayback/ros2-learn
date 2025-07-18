@@ -2,8 +2,8 @@
 workspace_paths:
   - name: examples  # 工作空间名称
     path: src/nodes/example_nodes  # 相对于工作空间根目录的路径
-  - name: pkgs
-    path: src/pkgs
+  - name: nodes
+    path: src/nodes
   # 可以添加更多工作空间路径
   # - name: custom
   #   path: src/custom 
