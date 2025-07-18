@@ -66,6 +66,10 @@ class AddTwoIntsServiceClient(Node):
         # 获取响应结果
         response = future.result()
         
+        # 检查响应是否成功
+        if response is None:
+            raise RuntimeError('服务调用失败：未收到响应')
+        
         return response
 
 
