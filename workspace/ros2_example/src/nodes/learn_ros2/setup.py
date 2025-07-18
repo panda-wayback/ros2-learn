@@ -18,11 +18,14 @@ setup(
     description='TODO: Package description',
     license='TODO: License declaration',
     tests_require=['pytest'],
-    entry_points={
-        'console_scripts': [
-            "01_simple_node = learn_ros2.01_simple_node.main:main",
-            "publisher_node = learn_ros2.02_topic_message.publisher_node:main",
-            "subscriber_node = learn_ros2.02_topic_message.subscriber_node:main",
-        ],
-    },
+            entry_points={
+            'console_scripts': [
+                "01_simple_node = learn_ros2.01_simple_node.main:main",
+                "publisher_node = learn_ros2.02_topic_message.publisher_node:main",
+                "subscriber_node = learn_ros2.02_topic_message.subscriber_node:main",
+                "service_server = learn_ros2.03_service_example.service_server:main",
+                "service_client = learn_ros2.03_service_example.service_client:main",
+                "interactive_client = learn_ros2.03_service_example.interactive_client:main",
+            ],
+        },
 )

@@ -20,6 +20,10 @@ build: clean
 
 buildEx: clean build list-all
 
+# make launch p=src/nodes/learn_ros2/learn_ros2/02_topic_message/topic_demo.launch.py
+launch:
+	$(setup) && ros2 launch $(p)
+
 # 运行节点
 # 用法1: make run PKG=<包名> NODE=<节点名>
 # 用法2: make run <包名>-<节点名>
