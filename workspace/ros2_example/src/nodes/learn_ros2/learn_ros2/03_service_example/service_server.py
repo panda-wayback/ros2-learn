@@ -13,7 +13,26 @@ ROS 2 服务端节点示例
 import rclpy
 from rclpy.node import Node
 from example_interfaces.srv import AddTwoInts
+import rclpy
+from rclpy.node import Node
+from example_interfaces.srv import AddTwoInts
 
+# AddTwoInts 服务类型说明：
+# 这是一个标准的ROS2服务类型，用于演示两个整数相加的功能
+# 
+# 服务类型定义（通过 ros2 interface show example_interfaces/srv/AddTwoInts 查看）：
+#     int64 a      # 请求参数：第一个整数
+#     int64 b      # 请求参数：第二个整数
+#     ---          # 分隔线：分隔请求和响应部分
+#     int64 sum    # 响应参数：两个整数的和
+#
+# 服务结构：
+#   - 请求（Request）：包含两个整数 a 和 b
+#   - 响应（Response）：包含一个整数 sum（a + b 的结果）
+# 使用方式：
+#   - request.a: 第一个整数
+#   - request.b: 第二个整数  
+#   - response.sum: 返回两个整数的和
 
 class AddTwoIntsServiceServer(Node):
     """

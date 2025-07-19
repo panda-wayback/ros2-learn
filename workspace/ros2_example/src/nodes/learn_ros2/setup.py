@@ -26,6 +26,9 @@ setup(
                 "service_server = learn_ros2.03_service_example.service_server:main",
                 "service_client = learn_ros2.03_service_example.service_client:main",
                 "interactive_client = learn_ros2.03_service_example.interactive_client:main",
+                "simple_action_server = learn_ros2.04_action_example.simple_action_server:main",
+                "simple_action_client = learn_ros2.04_action_example.simple_action_client:main",
+                "robot_navigation_example = learn_ros2.04_action_example.robot_navigation_example:main",
             ],
         },
 )

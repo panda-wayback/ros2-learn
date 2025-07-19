@@ -7,6 +7,14 @@
   <maintainer email="you@example.com">root</maintainer>
   <license>TODO: License declaration</license>
 
+  <!-- 标准消息依赖 -->
+  <depend>rclpy</depend>
+  <depend>std_msgs</depend>
+  <depend>example_interfaces</depend>
+  
+  <!-- 自定义接口依赖 -->
+  <depend>learn_ros2_interfaces</depend>
+
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
   <test_depend>ament_pep257</test_depend>
