@@ -78,6 +78,18 @@ list-all:
 	$(setup) && python3 scripts/list_nodes.py
 
 
+# 创建一个自定义 interface 包
+# 用法: make create-interface
+create-interface:
+	@echo "创建新的自定义 interface 包..."
+	@read -p "请输入 interface 包名: " pkg_name; \
+	cd src/interfaces; \
+	ros2 pkg create --build-type ament_cmake $$pkg_name
+	@echo "interface 包创建完成！"
+	@echo "请在 src/interfaces/$$pkg_name/ 目录下添加 msg/srv/action 文件夹和接口文件"
+	@echo "然后编辑 CMakeLists.txt 和 package.xml 配置接口生成"
+	@echo "最后运行 'make build' 来编译包"
+
 # 创建一个新的 python 节点
 # 在 src 目录下
 create-python:

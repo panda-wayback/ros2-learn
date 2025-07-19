@@ -1,0 +1,14 @@
+# 简单动作示例
+# 用于学习动作的基本结构
+
+# 目标定义
+int32 target_number
+
+---
+# 结果定义
+int32 final_number
+bool success
+
+---
+# 反馈定义
+int32 current_number 

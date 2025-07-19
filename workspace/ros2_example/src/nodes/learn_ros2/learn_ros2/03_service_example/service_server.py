@@ -32,6 +32,13 @@ class AddTwoIntsServiceServer(Node):
         # 参数说明：
         # - 'add_two_ints': 服务名称
         # - AddTwoInts: 服务类型（包含请求和响应消息）
+        # - AddTwoInts 是interface文件中定义的 service 类型 
+        # - 在interface文件中，service 类型定义了请求和响应的消息类型
+        # <l/setup.bash && ros2 interface show example_interfaces/srv/AddTwoInts
+        #     int64 a
+        #     int64 b
+        #     ---
+        #     int64 sum
         # - self.add_two_ints_callback: 回调函数，处理服务请求
         self.srv = self.create_service(
             AddTwoInts, 
