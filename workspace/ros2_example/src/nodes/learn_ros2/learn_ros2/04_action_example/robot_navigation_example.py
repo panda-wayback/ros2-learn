@@ -172,7 +172,7 @@ class RobotNavigationClient(Node):
         - feedback_msg: 包含当前位置的反馈消息
         """
         current_pos = feedback_msg.feedback.sequence[0]
-        self.get_logger().info(f'📊 导航进度: 已移动 {current_pos} 米')
+        self.get_logger().info(f'📊 客户端收到反馈: 机器人已移动到 {current_pos} 米处')
     
     def get_navigation_result(self, goal_handle):
         """
@@ -212,23 +212,38 @@ def main(args=None):
     navigation_client = RobotNavigationClient()
     
     try:
+        print("\n" + "="*60)
+        print("🤖 机器人导航Action演示开始")
+        print("="*60)
+        print("演示内容：")
+        print("1. 发送导航目标：移动到5米处")
+        print("2. 实时监控导航进度")
+        print("3. 查看反馈信息")
+        print("4. 获取最终结果")
+        print("="*60)
+        
         # 发送导航目标：移动到5米处
         goal_handle = navigation_client.navigate_to(5)
         
         if goal_handle:
+            print("\n📊 开始监控导航进度...")
             # 获取导航结果
             result = navigation_client.get_navigation_result(goal_handle)
             
             if result:
-                print("\n" + "="*50)
+                print("\n" + "="*60)
                 print("🎉 机器人导航演示完成！")
-                print("="*50)
+                print("="*60)
                 print("这个例子展示了Action的核心价值：")
                 print("✅ 发送目标：移动到指定位置")
                 print("✅ 实时反馈：显示移动进度")
                 print("✅ 获取结果：导航完成状态")
                 print("✅ 可取消性：随时可以取消任务")
-                print("="*50)
+                print("="*60)
+                print("Action vs Service 对比：")
+                print("Service: 发送请求 → 等待 → 得到结果")
+                print("Action:  发送目标 → 监控进度 → 得到结果")
+                print("="*60)
         
     except KeyboardInterrupt:
         print("\n❌ 演示被用户中断")
