@@ -18,24 +18,30 @@ setup(
     description='TODO: Package description',
     license='TODO: License declaration',
     tests_require=['pytest'],
-            entry_points={
-            'console_scripts': [
-                # 01 - Simple Node
-                "01_simple_node = learn_ros2_basic.01_simple_node.main:main",
-                # 02 - Topic
-                "02_publisher_node = learn_ros2_basic.02_topic_message.publisher_node:main",
-                "02_subscriber_node = learn_ros2_basic.02_topic_message.subscriber_node:main",
-                # 03 - Service
-                "03_service_server = learn_ros2_basic.03_service_example.service_server:main",
-                "03_service_client = learn_ros2_basic.03_service_example.service_client:main",
-                "03_interactive_client = learn_ros2_basic.03_service_example.interactive_client:main",
-                # 04 - Action
-                "04_simple_action_server = learn_ros2_basic.04_action_example.simple_action_server:main",
-                "04_simple_action_client = learn_ros2_basic.04_action_example.simple_action_client:main",
-                "04_robot_navigation_example = learn_ros2_basic.04_action_example.robot_navigation_example:main",
-                # 05 - Cancelable Action
-                "05_simple_cancelable_server = learn_ros2_basic.05_cancelable_action_example.cancelable_action_server:main",
-                "05_simple_cancelable_client = learn_ros2_basic.05_cancelable_action_example.cancelable_action_client:main",
-            ],
-        },
+    entry_points={
+        'console_scripts': [
+            # 01 - Simple Node
+            "01_simple_node = learn_ros2_basic.01_simple_node.main:main",
+            # 02 - Topic
+            "02_publisher_node = learn_ros2_basic.02_topic_message.publisher_node:main",
+            "02_subscriber_node = learn_ros2_basic.02_topic_message.subscriber_node:main",
+            # 03 - Service
+            "03_service_server = learn_ros2_basic.03_service_example.service_server:main",
+            "03_service_client = learn_ros2_basic.03_service_example.service_client:main",
+            "03_interactive_client = learn_ros2_basic.03_service_example.interactive_client:main",
+            # 04 - Action
+            "04_simple_action_server = learn_ros2_basic.04_action_example.simple_action_server:main",
+            "04_simple_action_client = learn_ros2_basic.04_action_example.simple_action_client:main",
+            "04_robot_navigation_example = learn_ros2_basic.04_action_example.robot_navigation_example:main",
+            # 05 - Cancelable Action
+            "05_simple_cancelable_server = learn_ros2_basic.05_cancelable_action_example.cancelable_action_server:main",
+            "05_simple_cancelable_client = learn_ros2_basic.05_cancelable_action_example.cancelable_action_client:main",
+            
+            # 06 - QoS Reliability Example
+            "06_reliability_publisher = learn_ros2_basic.06_qos_example.reliability_publisher:main",
+            "06_reliability_subscriber = learn_ros2_basic.06_qos_example.reliability_subscriber:main",
+            # 07 - CLI Tools Example
+            "07_cli_service_server = learn_ros2_basic.07_cli_tools_example.cli_service_server:main",
+        ],
+    },
 )
