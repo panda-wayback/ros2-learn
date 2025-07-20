@@ -24,14 +24,14 @@
 ### 1. 构建项目
 ```bash
 cd /root/ros2-learn/workspace/ros2_example
-colcon build --packages-select learn_ros2
+colcon build --packages-select learn_ros2_basic
 source install/setup.bash
 ```
 
 ### 2. 启动服务端
 ```bash
 # 终端1：启动服务端
-ros2 run learn_ros2 service_server
+ros2 run learn_ros2_basic service_server
 ```
 
 ### 3. 测试服务（三种方式）
@@ -45,13 +45,13 @@ ros2 service call /add_two_ints example_interfaces/srv/AddTwoInts "{a: 5, b: 3}"
 #### 方式2：使用自动测试客户端
 ```bash
 # 终端2：运行自动测试客户端
-ros2 run learn_ros2 service_client
+ros2 run learn_ros2_basic service_client
 ```
 
 #### 方式3：使用交互式客户端
 ```bash
 # 终端2：运行交互式客户端
-ros2 run learn_ros2 interactive_client
+ros2 run learn_ros2_basic interactive_client
 ```
 
 ## 📁 文件说明

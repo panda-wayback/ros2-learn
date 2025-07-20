@@ -75,20 +75,20 @@ Action是ROS 2中用于**长时间任务**的通信机制，具有以下特点�
 ### 1. 构建项目
 ```bash
 cd /root/ros2-learn/workspace/ros2_example
-colcon build --packages-select learn_ros2
+colcon build --packages-select learn_ros2_basic
 source install/setup.bash
 ```
 
 ### 2. 启动Action服务端
 ```bash
 # 终端1：启动Action服务端
-ros2 run learn_ros2 simple_action_server
+ros2 run learn_ros2_basic simple_action_server
 ```
 
 ### 3. 运行Action客户端
 ```bash
 # 终端2：运行Action客户端
-ros2 run learn_ros2 simple_action_client
+ros2 run learn_ros2_basic simple_action_client
 ```
 
 ### 4. 使用命令行工具测试

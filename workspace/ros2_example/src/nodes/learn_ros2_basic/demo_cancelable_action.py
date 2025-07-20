@@ -16,13 +16,13 @@ def run_demo():
     print("=" * 50)
     
     # 切换到正确的目录
-    os.chdir('/root/ros2-learn/workspace/ros2_example/src/nodes/learn_ros2')
+    os.chdir('/root/ros2-learn/workspace/ros2_example/src/nodes/learn_ros2_basic')
     
     # 启动服务端
     print("🚀 启动服务端...")
     server_process = subprocess.Popen([
         'bash', '-c',
-        'source install/setup.bash && ros2 run learn_ros2 cancelable_action_server'
+        'source install/setup.bash && ros2 run learn_ros2_basic cancelable_action_server'
     ])
     
     # 等待服务端启动
@@ -35,7 +35,7 @@ def run_demo():
         # 运行客户端（短任务，会完成）
         client_process = subprocess.run([
             'bash', '-c',
-            'source install/setup.bash && echo "5" | ros2 run learn_ros2 cancelable_action_client'
+            'source install/setup.bash && echo "5" | ros2 run learn_ros2_basic cancelable_action_client'
         ], timeout=10)
         
         print("\n✅ 场景1完成")
@@ -49,7 +49,7 @@ def run_demo():
         # 启动客户端（长任务，演示取消）
         client_process = subprocess.Popen([
             'bash', '-c',
-            'source install/setup.bash && ros2 run learn_ros2 cancelable_action_client'
+            'source install/setup.bash && ros2 run learn_ros2_basic cancelable_action_client'
         ])
         
         # 让客户端运行一段时间
@@ -80,8 +80,8 @@ def run_demo():
         print("3. ✅ 任务可以正常完成")
         print("4. ✅ 取消功能工作正常")
         print("\n💡 你可以手动运行以下命令进行测试:")
-        print("   终端1: ros2 run learn_ros2 cancelable_action_server")
-        print("   终端2: ros2 run learn_ros2 cancelable_action_client")
+        print("   终端1: ros2 run learn_ros2_basic cancelable_action_server")
+        print("   终端2: ros2 run learn_ros2_basic cancelable_action_client")
         print("   在终端2中按Ctrl+C即可取消任务")
 
 if __name__ == "__main__":

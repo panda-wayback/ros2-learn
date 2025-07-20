@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>learn_ros2</name>
+  <name>learn_ros2_basic</name>
   <version>0.0.0</version>
   <description>TODO: Package description</description>
   <maintainer email="you@example.com">root</maintainer>
@@ -13,7 +13,7 @@
   <depend>example_interfaces</depend>
   
   <!-- 自定义接口依赖 -->
-  <depend>learn_ros2_interfaces</depend>
+  <depend>learn_ros2_basic_interfaces</depend>
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>

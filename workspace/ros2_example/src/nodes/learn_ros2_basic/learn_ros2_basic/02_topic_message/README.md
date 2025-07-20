@@ -26,7 +26,7 @@
 ```bash
 # 在workspace根目录下
 source install/setup.bash
-ros2 launch learn_ros2 topic_demo.launch.py
+ros2 launch learn_ros2_basic topic_demo.launch.py
 ```
 
 ### 方法2：分别启动节点
@@ -34,13 +34,13 @@ ros2 launch learn_ros2 topic_demo.launch.py
 **终端1 - 启动发布者：**
 ```bash
 source install/setup.bash
-ros2 run learn_ros2 publisher_node
+ros2 run learn_ros2_basic publisher_node
 ```
 
 **终端2 - 启动订阅者：**
 ```bash
 source install/setup.bash
-ros2 run learn_ros2 subscriber_node
+ros2 run learn_ros2_basic subscriber_node
 ```
 
 ## 🔍 观察和调试

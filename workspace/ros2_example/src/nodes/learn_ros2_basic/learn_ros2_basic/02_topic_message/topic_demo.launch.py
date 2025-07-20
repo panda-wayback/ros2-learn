@@ -16,7 +16,7 @@ def generate_launch_description():
     
     # 创建发布者节点
     publisher_node = Node(
-        package='learn_ros2',  # 包名
+        package='learn_ros2_basic',  # 包名
         executable='publisher_node',  # 可执行文件名
         name='publisher_node',  # 节点名称
         output='screen',  # 输出到屏幕
@@ -28,7 +28,7 @@ def generate_launch_description():
     
     # 创建订阅者节点
     subscriber_node = Node(
-        package='learn_ros2',  # 包名
+        package='learn_ros2_basic',  # 包名
         executable='subscriber_node',  # 可执行文件名
         name='subscriber_node',  # 节点名称
         output='screen',  # 输出到屏幕

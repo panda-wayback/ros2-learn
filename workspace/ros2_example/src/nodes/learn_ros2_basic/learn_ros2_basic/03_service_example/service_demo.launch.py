@@ -15,7 +15,7 @@ def generate_launch_description():
     return LaunchDescription([
         # 启动服务端节点
         Node(
-            package='learn_ros2',
+            package='learn_ros2_basic',
             executable='service_server',
             name='add_two_ints_server',
             output='screen',
@@ -24,7 +24,7 @@ def generate_launch_description():
         
         # 启动自动测试客户端节点（延迟2秒启动）
         Node(
-            package='learn_ros2',
+            package='learn_ros2_basic',
             executable='service_client',
             name='add_two_ints_client',
             output='screen',

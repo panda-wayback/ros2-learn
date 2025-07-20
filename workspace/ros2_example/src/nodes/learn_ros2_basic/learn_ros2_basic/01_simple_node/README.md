@@ -38,13 +38,13 @@
 
 ```bash
 # 1. 构建包
-colcon build --packages-select learn_ros2
+colcon build --packages-select learn_ros2_basic
 
 # 2. 设置环境
 source install/setup.bash
 
 # 3. 运行节点
-ros2 run learn_ros2 01_simple_node
+ros2 run learn_ros2_basic 01_simple_node
 ```
 
 ### 方法2：直接运行Python文件
@@ -54,7 +54,7 @@ ros2 run learn_ros2 01_simple_node
 source /opt/ros/humble/setup.bash
 
 # 2. 直接运行Python文件
-python3 src/nodes/learn_ros2/learn_ros2/01_simple_node/main.py
+python3 src/nodes/learn_ros2_basic/learn_ros2_basic/01_simple_node/main.py
 ```
 
 ## 预期输出

@@ -8,7 +8,7 @@
 - 结果：导航完成或失败
 
 运行方法：
-ros2 run learn_ros2 robot_navigation_example
+ros2 run learn_ros2_basic robot_navigation_example
 """
 
 import rclpy

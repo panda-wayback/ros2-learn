@@ -15,7 +15,7 @@ ROS 2 Action服务端示例 - 斐波那契数列计算
 - 演示真正的斐波那契数列计算
 
 运行方法：
-ros2 run learn_ros2 simple_action_server
+ros2 run learn_ros2_basic simple_action_server
 
 Action接口定义 (example_interfaces.action.Fibonacci):
 # Goal（目标）
